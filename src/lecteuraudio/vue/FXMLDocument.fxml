@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.TreeItem?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import lecteuraudio.modele.*?>
+<?import lecteuraudio.metier.*?>
+<?import lecteuraudio.persistanceBin.*?>
+<?import lecteuraudio.cellfactory.*?>
+
+<BorderPane id="BorderPane" fx:id="borderPane" prefHeight="900.0" prefWidth="1200.0" stylesheets="@MediaPlayer.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"> 
+    
+    <center>
+      <!-- définition de la grille principale -->
+      <GridPane alignment="TOP_CENTER" prefHeight="900.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" percentWidth="0.0" prefWidth="200.0" />
+            <ColumnConstraints hgrow="NEVER" />
+            <ColumnConstraints hgrow="SOMETIMES" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" prefWidth="220.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="90.0" minHeight="90.0" prefHeight="90.0" vgrow="SOMETIMES" />
+          <RowConstraints vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TitledPane alignment="CENTER" collapsible="false" maxHeight="1.7976931348623157E308" text="Playlist" textAlignment="CENTER" GridPane.rowIndex="1">
+               <content>
+                   <!-- définition du TreeView et de son menu contextuel-->
+                   <TreeView fx:id="treeView" editable="true" onMouseClicked="#onNoeudMusiqueChoisie" style="-fx-border-width: 1;">
+                       <contextMenu>
+                        <ContextMenu>
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#onAjoutPlayList">
+                                 <graphic>
+                                    <HBox>
+                                       <children>
+                                          <Label text="Ajouter à " />
+                                          <Label text="${controller.selectedNoeud.titre}" />
+                                       </children>
+                                    </HBox>
+                                 </graphic></MenuItem>
+                            <MenuItem mnemonicParsing="false" onAction="#onSupprimerNoeudMusique">
+                                 <graphic>
+                                    <Label text="Supprimer" />
+                                 </graphic></MenuItem>
+                          </items>
+                        </ContextMenu>
+                      </contextMenu>
+                       <cellFactory>
+                          <TreeItemCellFactory />
+                      </cellFactory>
+                      
+                      <TreeItem fx:id="rootItem" value="${controller.manager.racine}" />
+                  </TreeView>
+               </content>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="5.0" />
+               </GridPane.margin>
+            </TitledPane>
+            <TableView fx:id="tableView" editable="true" nodeOrientation="LEFT_TO_RIGHT" onDragDetected="#onDragDetected" onDragDropped="#onDragDropped" onDragOver="#onDragOver" onMouseClicked="#onMusiqueChoisie" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
+               <contextMenu>
+                  <ContextMenu>
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onModifier" text="Modifier" />
+                        <MenuItem mnemonicParsing="false" onAction="#onModifierIntelligent" text="Modification intelligente" />
+                        <MenuItem mnemonicParsing="false" onAction="#onCopier" text="Copier" />
+                        <MenuItem mnemonicParsing="false" onAction="#onColler" text="Coller" />
+                        <MenuItem mnemonicParsing="false" onAction="#onCreerPlayListDepuisSelection" text="Créer playlist à partir de la séléction" />
+                        <MenuItem mnemonicParsing="false" onAction="#onSupprimerMusique" text="Supprimer" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+               <columns>
+                  <TableColumn id="numberCol" fx:id="numCol" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" sortable="false" />
+                  <TableColumn id="titreCol" fx:id="titreCol1" minWidth="10.0" prefWidth="-1.0" text="Titre" />
+                  <TableColumn id="dureeCol" fx:id="dureeCol" maxWidth="80.0" minWidth="80.0" text="Durée" />
+                  <TableColumn id="auteurCol" fx:id="auteurCol" minWidth="10.0" prefWidth="-1.0" text="Auteur" />
+               </columns>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </TableView>
+
+            <StackPane style="-fx-border-width: 1;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <StackPane>
+               <children>
+                    <Button id="play" fx:id="play" mnemonicParsing="false" onAction="#playPressed" StackPane.alignment="CENTER">
+                     <StackPane.margin>
+                        <Insets right="5.0" />
+                     </StackPane.margin></Button>
+                  <Button id="previous" fx:id="previous" mnemonicParsing="false" onAction="#previousPressed" StackPane.alignment="CENTER">
+                     <StackPane.margin>
+                        <Insets right="115.0" />
+                     </StackPane.margin>
+                  </Button>
+                  <Button id="next" fx:id="next" mnemonicParsing="false" onAction="#nextPressed" StackPane.alignment="CENTER">
+                     <StackPane.margin>
+                        <Insets left="100.0" />
+                     </StackPane.margin>
+                  </Button>
+               </children></StackPane>
+            <FlowPane alignment="CENTER_LEFT" GridPane.columnIndex="3">
+               <children>
+                  <TextField fx:id="zoneRech" maxWidth="150.0" onKeyPressed="#onEnter" prefHeight="31.0" prefWidth="151.0">
+                     <FlowPane.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </FlowPane.margin>
+                  </TextField>
+                  <Button fx:id="rechButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onRech" text="Rech" />
+               </children>
+            </FlowPane>
+            <StackPane GridPane.columnIndex="2">
+               <children>
+                  <StackPane id="zoneLecteur" maxHeight="80.0" maxWidth="500.0" minHeight="50.0" minWidth="500.0" prefHeight="50.0" prefWidth="500.0" StackPane.alignment="CENTER">
+                     <children>
+                        <Label fx:id="titreMusique" text="${controller.manager.noeudCourant.titre}" StackPane.alignment="BOTTOM_CENTER">
+                           <StackPane.margin>
+                              <Insets bottom="45.0" />
+                           </StackPane.margin>
+                        </Label>
+                        <Label fx:id="auteur" text="${controller.manager.noeudCourant.auteur}" StackPane.alignment="BOTTOM_CENTER">
+                           <StackPane.margin>
+                              <Insets bottom="25.0" />
+                           </StackPane.margin>
+                        </Label>
+                        <FlowPane alignment="BOTTOM_CENTER" minWidth="450.0">
+                           <children>
+                              <Label fx:id="tempsEcoule" text="Temps">
+                                 <FlowPane.margin>
+                                    <Insets bottom="2.0" right="5.0" />
+                                 </FlowPane.margin>
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Label>
+                              <ProgressBar id="progressBar" fx:id="progressbar" blendMode="MULTIPLY" cache="true" maxHeight="10.0" minHeight="10.0" onMouseClicked="#OnProgressBar" onMouseExited="#onProgressBarExited" onMouseMoved="#onProgressBarMoved" prefHeight="10.0" prefWidth="360.0" progress="0.0" />
+                              <Label fx:id="tempsRestant" text="Temps restant">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                                 <FlowPane.margin>
+                                    <Insets bottom="2.0" left="5.0" />
+                                 </FlowPane.margin>
+                              </Label>
+                           </children>
+                           <StackPane.margin>
+                              <Insets bottom="5.0" />
+                           </StackPane.margin>
+                        </FlowPane>
+                     </children>
+                  </StackPane>
+               </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </StackPane>
+            <FlowPane alignment="CENTER" maxWidth="180.0" GridPane.columnIndex="1">
+               <children>
+                  <Button id="mute" fx:id="muteButton" mnemonicParsing="false" onAction="#onMuteClic" prefWidth="60.0" />
+                  <Slider fx:id="volumeSlider" cache="true" maxHeight="10.0" maxWidth="115.0" minHeight="10.0" minWidth="115.0" prefHeight="10.0" prefWidth="115.0" value="100.0" />
+               </children>
+            </FlowPane>
+            
+            
+         </children>
+      </GridPane>
+   </center>
+   <bottom>
+      <GridPane BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+            <ColumnConstraints hgrow="SOMETIMES" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints percentHeight="50.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="50.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Button fx:id="ajoutPlayList" mnemonicParsing="false" onAction="#onAjoutPlayList" text="+">
+               <GridPane.margin>
+                  <Insets left="5.0" />
+               </GridPane.margin></Button>
+            <FlowPane alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowSpan="2">
+               <children>
+                  <Button id="youtube" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onYoutube" text="Youtube">
+                     <FlowPane.margin>
+                        <Insets right="40.0" />
+                     </FlowPane.margin>
+                  </Button>
+                  <Button id="import" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#importPressed" text="Importer">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <FlowPane.margin>
+                        <Insets right="40.0" />
+                     </FlowPane.margin>
+                  </Button>
+                  <Button id="import" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#importDirectoryPressed" text="Importer un répertoire">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <FlowPane.margin>
+                        <Insets right="40.0" />
+                     </FlowPane.margin>
+                  </Button>
+               </children>
+               
+            </FlowPane>
+            <FlowPane fx:id="zoneAjout" visible="false">
+               <children>
+                  <TextField fx:id="nomPlayListAjout" maxWidth="190.0" onKeyPressed="#onValidNom" prefWidth="180.0" promptText="Playlist à ajouter">
+                     <FlowPane.margin>
+                        <Insets right="1.0" />
+                     </FlowPane.margin>
+                  </TextField>
+                  <Button mnemonicParsing="false" onAction="#onValidNomButton" text="Ajouter">
+                     <FlowPane.margin>
+                        <Insets right="1.0" />
+                     </FlowPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#onAnnulerPlaylist" text="Annuler" />
+               </children>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+               <GridPane.margin>
+                  <Insets left="5.0" />
+               </GridPane.margin>
+            </FlowPane>
+            <StackPane alignment="CENTER_LEFT" GridPane.rowIndex="1">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#onSupprimerNoeudMusique" prefWidth="31.0" text="-">
+                     <StackPane.margin>
+                        <Insets left="5.0" />
+                     </StackPane.margin></Button>
+               </children>
+            </StackPane>
+         </children>
+      </GridPane>
+   </bottom>
+   <top>
+      <MenuBar maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="800.0" style="-fx-border-width: 0;" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#importPressed" text="Importer" />
+              <MenuItem mnemonicParsing="false" onAction="#onAjoutPlayList" text="Ajout PlayList" />
+              <MenuItem mnemonicParsing="false" onAction="#onSupprimerNoeudMusique" text="Supprimer PlayList" />
+              <MenuItem mnemonicParsing="false" onAction="#onExit" text="Exit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>

@@ -1,0 +1,172 @@
+#play {
+
+    -fx-graphic: url("icon-play.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-padding: 3px;
+    -fx-background-color: transparent; 
+
+}
+#play:hover {
+
+    -fx-graphic: url("icon-hover-play.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-padding: 3px;
+    -fx-background-color: transparent; 
+}
+
+#next {
+    -fx-graphic: url("icon-next.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-padding: 3px;
+    -fx-background-color: transparent; 
+}
+
+#next:hover {
+    -fx-graphic: url("icon-hover-next.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-padding: 3px;
+    -fx-background-color: transparent; 
+}
+
+#previous {
+
+    -fx-graphic: url("icon-previous.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-padding: 3px;
+    -fx-background-color: transparent; 
+}
+
+#previous:hover {
+
+    -fx-graphic: url("icon-hover-previous.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-padding: 3px;
+    -fx-background-color: transparent; 
+}
+#pause {
+
+    -fx-graphic: url("icon-pause.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-padding: 3px;
+    -fx-background-color: transparent; 
+}
+
+#pause:hover {
+
+    -fx-graphic: url("icon-hover-pause.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-padding: 3px;
+    -fx-background-color: transparent; 
+}
+
+#mute {
+    -fx-graphic: url("icon-son.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-padding: 3px;
+    -fx-background-color: transparent;
+}
+
+#mute:hover {
+    -fx-graphic: url("icon-hover-son.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-padding: 3px;
+    -fx-background-color: transparent;
+}
+
+#unmute {
+    -fx-graphic: url("icon-noson.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-padding: 3px;
+    -fx-background-color: transparent;
+}
+
+#unmute:hover {
+    -fx-graphic: url("icon-hover-noson.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-padding: 3px;
+    -fx-background-color: transparent;
+}
+
+#import {
+    -fx-background-color: darkgray;
+    -fx-text-fill: #f5f2f2
+}
+
+#import:hover {
+    -fx-background-color: lightgray;
+}
+
+#youtube {
+    -fx-background-color: darkgray;
+    -fx-text-fill: #d01010;
+
+}
+
+#youtube:hover {
+    -fx-background-color: lightgray;
+}
+
+#zoneLecteur {
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
+    -fx-border-color: gray;
+    -fx-border-radius: 10 10 10 10;
+    -fx-background-radius: 10 10 10 10;
+    -fx-background-color: #d0f3f8;
+}
+
+#progressBar {
+    -fx-skin: "com.sun.javafx.scene.control.skin.ProgressBarSkin";
+    -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to bottom, derive(-fx-color,30%) 5%, derive(-fx-color,-17%));
+    -fx-background-insets: 0, 1;
+    -fx-indeterminate-bar-length: 60;
+    -fx-indeterminate-bar-escape: true;
+    -fx-indeterminate-bar-flip: true;
+    -fx-indeterminate-bar-animation-time: 2;
+}
+
+#progressBar .bar { 
+    -fx-background-radius: 2;
+    -fx-padding: 0em;
+}
+
+
+#progressBarHover {
+    -fx-skin: "com.sun.javafx.scene.control.skin.ProgressBarSkin";
+    -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to bottom, derive(-fx-color,30%) 5%, derive(-fx-color,-17%));
+    -fx-background-insets: 0, 1;
+    -fx-indeterminate-bar-length: 60;
+    -fx-indeterminate-bar-escape: true;
+    -fx-indeterminate-bar-flip: true;
+    -fx-indeterminate-bar-animation-time: 2;
+}
+
+#progressBarHover .bar { 
+    -fx-background-color: #51a3ff;
+    -fx-background-radius: 2;
+    -fx-padding: 0em;
+}
+
+#numberCol, #dureeCol{
+    -fx-alignment: center;
+}
+
+#titreCol, #auteurCol, #numberCol, #dureeCol{
+    -fx-font-weight: bold;
+}
